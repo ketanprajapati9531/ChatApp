@@ -1,0 +1,34 @@
+<!-- ketan universe -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat App ketan universe</title>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="message-input" autocomplete="off" />
+      <button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    //the client-side JavaScript code
+      var socket = io();
+      var messageInput = document.getElementById('message-input');
+      var messagesList = document.getElementById('messages');
+      var sendMessage = function() {
+        if (messageInput.value) {
+          socket.emit('chat message', messageInput.value);
+          messageInput.value = '';
+        }
+        return false;
+      };
+      document.querySelector('form').addEventListener('submit', sendMessage, false);
+      socket.on('chat message', function(msg) {
+        var li = document.createElement('li');
+        li.textContent = msg;
+        messagesList.appendChild(li);
+      });
+    </script>
+  </body>
+</html>
